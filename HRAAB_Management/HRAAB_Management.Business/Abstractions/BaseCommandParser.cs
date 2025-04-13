@@ -7,19 +7,60 @@ namespace HRAAB_Management.Business.Abstractions
     {
         protected string commandType;
         protected int expectedArgumentsCount;
+        private string dateTimeFormat;
 
-        protected BaseCommandParser(string commandType, int expectedArgumentsCount)
+        protected BaseCommandParser(string commandType, int expectedArgumentsCount, string dateTimeFormat)
         {
             this.commandType = commandType;
             this.expectedArgumentsCount = expectedArgumentsCount;
+            this.dateTimeFormat = dateTimeFormat;
         }
+
         protected abstract ICommandData CreateCommandData(string sanitizedInput);
+
+        protected string[] GetCommandParts(string sanitizedInput)
+        {
+            return sanitizedInput.Split([','], StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        protected (DateOnly arrival, DateOnly departure) GetDateRange(string date)
+        {
+            var dateParts = date.Split(['-'], StringSplitOptions.RemoveEmptyEntries);
+            if (dateParts.Length > 2)
+            {
+                throw new ArgumentException("Invalid date format", nameof(date));
+            }
+
+            DateOnly arrival;
+            DateOnly departure;
+            if (dateParts.Length == 1)
+            {
+                arrival = GetDate(dateParts[0]);
+                departure = arrival.AddDays(1);
+            }
+            else if (dateParts.Length == 2)
+            {
+                arrival = GetDate(dateParts[0]);
+                departure = GetDate(dateParts[1]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date format", nameof(date));
+            }
+
+            return new(arrival, departure);
+        }
 
         public ICommandData Parse(string input)
         {
             string sanitizedInput = SanitizeInput(input);
             ICommandData data = CreateCommandData(sanitizedInput);
             return data;
+        }
+
+        private DateOnly GetDate(string date)
+        {
+            return DateOnly.ParseExact(date.Trim(), dateTimeFormat, null);
         }
 
         private string SanitizeInput(string input)

@@ -2,6 +2,7 @@
 using HRAAB_Management.Business.Abstractions.Interfaces;
 using HRAAB_Management.Business.CommandData;
 using HRAAB_Management.Business.Enums;
+using HRAAB_Management.Business.Exceptions;
 using HRAAB_Management.Business.Services.Commands;
 
 namespace HRAAB_Management.Business.Services
@@ -10,30 +11,32 @@ namespace HRAAB_Management.Business.Services
     {
         private readonly BaseCommandParser<AvailabilityCommandData> availabilityCommandParser;
         private readonly BaseCommandParser<RoomTypesCommandData> roomTypeCommandParser;
+        private readonly IDataStore dataStore;
 
         public CommandFactory(
             BaseCommandParser<AvailabilityCommandData> availabilityCommandParser,
-            BaseCommandParser<RoomTypesCommandData> roomTypeCommandParser)
+            BaseCommandParser<RoomTypesCommandData> roomTypeCommandParser,
+            IDataStore dataStore)
         {
             this.availabilityCommandParser = availabilityCommandParser;
             this.roomTypeCommandParser = roomTypeCommandParser;
+            this.dataStore = dataStore;
         }
 
         public ICommand GetCommand(string input)
         {
             if (input.StartsWith(CommandType.Availability.ToString()))
             {
-                ICommandData command = availabilityCommandParser.Parse(input);
-                return new AvailabilityCommand(command);
+                ICommandData data = availabilityCommandParser.Parse(input);
+                return new AvailabilityCommand(data, dataStore);
             }
             else if (input.StartsWith(CommandType.RoomTypes.ToString()))
             {
                 ICommandData data = roomTypeCommandParser.Parse(input);
-                return new RoomTypesCommand();
+                return new RoomTypesCommand(data, dataStore);
             }
 
-            //TODO: create custom exception
-            throw new ArgumentException("Invalid command", nameof(input));
+            throw new InvalidCommandException($"Invalid command: {nameof(input)}");
         }
     }
 }

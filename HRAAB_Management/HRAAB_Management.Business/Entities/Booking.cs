@@ -1,14 +1,18 @@
-﻿using HRAAB_Management.Business.Enums;
+﻿using HRAAB_Management.Business.Convertors;
+using HRAAB_Management.Business.Enums;
+using Newtonsoft.Json;
 
 namespace HRAAB_Management.Business.Entities
 {
     public class Booking : IEntity
     {
-        public int HotelId { get; set; }
+        public string HotelId { get; set; }
 
-        public DateTime Arrival { get; set; }
+        [JsonConverter(typeof(DateOnlyNewtonsoftConverter))]
+        public DateOnly Arrival { get; set; }
 
-        public DateTime Departure { get; set; }
+        [JsonConverter(typeof(DateOnlyNewtonsoftConverter))]
+        public DateOnly Departure { get; set; }
 
         public RoomTypeCode RoomType { get; set; }
 

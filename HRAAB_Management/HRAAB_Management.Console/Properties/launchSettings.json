@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "HRAAB_Management.Console": {
-      "commandName": "Project",
-      "commandLineArgs": "--hotels hotels.json --bookings bookings.json"
-    }
-  }
-}

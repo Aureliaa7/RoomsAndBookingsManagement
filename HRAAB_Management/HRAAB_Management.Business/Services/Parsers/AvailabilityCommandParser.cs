@@ -14,34 +14,15 @@ namespace HRAAB_Management.Business.Services.Parsers
         private const int RoomTypeCodeIndex = 2;
 
         public AvailabilityCommandParser(IOptions<AvailabilityCommandSettings> settings)
-            : base(settings.Value.CommandName, settings.Value.NoExpectedArguments) { }
+            : base(settings.Value.CommandName, settings.Value.NoExpectedArguments, settings.Value.DateTimeFormat)
+        {
+        }
 
         protected override ICommandData CreateCommandData(string sanitizedInput)
         {
-            var parts = sanitizedInput.Split([','], StringSplitOptions.RemoveEmptyEntries);
-            var dateParts = parts[DateIndex].Split(['-'], StringSplitOptions.RemoveEmptyEntries);
-            if (dateParts.Length > 2)
-            {
-                throw new ArgumentException("Invalid date format", nameof(sanitizedInput));
-            }
+            string[] parts = GetCommandParts(sanitizedInput);
 
-            DateTime arrival;
-            DateTime departure;
-            if (dateParts.Length == 1)
-            {
-                // TODO: extract format date to appsettings
-                arrival = DateTime.ParseExact(dateParts[0].Trim(), "yyyyMMdd", null);
-                departure = arrival.AddDays(1);
-            }
-            else if (dateParts.Length == 2)
-            {
-                arrival = DateTime.ParseExact(dateParts[0].Trim(), "yyyyMMdd", null);
-                departure = DateTime.ParseExact(dateParts[1].Trim(), "yyyyMMdd", null);
-            }
-            else
-            {
-                throw new ArgumentException("Invalid date format", nameof(sanitizedInput));
-            }
+            (DateOnly arrival, DateOnly departure) = GetDateRange(parts[DateIndex].Trim());
 
             var data = new AvailabilityCommandData
             {

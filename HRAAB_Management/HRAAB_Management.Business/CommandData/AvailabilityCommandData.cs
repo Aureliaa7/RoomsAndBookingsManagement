@@ -6,9 +6,9 @@ namespace HRAAB_Management.Business.CommandData
     {
         public string HotelId { get; set; }
 
-        public DateTime Arrival { get; set; }
+        public DateOnly Arrival { get; set; }
 
-        public DateTime? Departure { get; set; }
+        public DateOnly Departure { get; set; }
 
         public RoomTypeCode RoomType { get; set; }
     }

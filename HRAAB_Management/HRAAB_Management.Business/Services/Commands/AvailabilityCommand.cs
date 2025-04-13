@@ -1,30 +1,32 @@
 ﻿using HRAAB_Management.Business.Abstractions.Interfaces;
 using HRAAB_Management.Business.CommandData;
+using HRAAB_Management.Business.Entities;
 
 namespace HRAAB_Management.Business.Services.Commands
 {
-    public class AvailabilityCommand : ICommand
+    public class AvailabilityCommand : BaseCommand, ICommand
     {
-        private ICommandData data;
+        private AvailabilityCommandData data;
 
-        public AvailabilityCommand(ICommandData data)
+        public AvailabilityCommand(ICommandData data, IDataStore dataStore) : base(dataStore)
         {
             if (data is not AvailabilityCommandData)
             {
                 throw new ArgumentException("Invalid command data type", nameof(data));
             }
-            this.data = data;
+            this.data = (AvailabilityCommandData)data;
         }
 
-        // I think this could implement an abstract class and this method be as a template method
-        //
         public Task<string> ExecuteAsync()
         {
-            // inject store and check hotel availability
-            // return the result as string
+            Hotel hotel = GetHotel(data.HotelId);
 
-            return Task.FromResult("To do");
+            int overlappingBookings = dataStore.GetBookings()
+                .Count(b => IsRoomBooked(data.RoomType, data.Arrival, data.Departure, data.HotelId));
 
+            int totalRooms = hotel.Rooms.Count(r => r.RoomType == data.RoomType);
+
+            return Task.FromResult((totalRooms - overlappingBookings).ToString());
         }
     }
 }

@@ -37,29 +37,63 @@ namespace HRAAB_Management.Business.Services
 
         public async Task RunAsync()
         {
-            graphicUserInterface.PrintMessage("Welcome to the Hotel Rooms Management System!\n");
+            PrintHeader();
             while (true)
             {
-                // todo: create a menu and allow the user to clear the screen
-                graphicUserInterface.PrintMessage("Enter command (or 'exit' to quit): ");
-                string? input = graphicUserInterface.ReadString();
+                PrintMenu();
 
-                if (string.IsNullOrEmpty(input))
-                {
-                    Environment.Exit(0);
-                }
+                var input = Console.ReadLine()?.Trim();
 
-                try
+                switch (input)
                 {
-                    ICommand command = commandFactory.GetCommand(input);
-                    string result = await command.ExecuteAsync();
-                    graphicUserInterface.PrintMessage($"** Result: {result}\n");
-                }
-                catch (Exception ex)
-                {
-                    graphicUserInterface.PrintMessage($"An error occurred while processing the command: {ex.Message}. Please try again.\n");
+                    case "1":
+                        graphicUserInterface.PrintMessage("Enter command: ");
+                        var userCommand = Console.ReadLine()?.Trim();
+
+                        if (string.IsNullOrEmpty(userCommand))
+                        {
+                            Environment.Exit(0);
+                        }
+
+                        try
+                        {
+                            ICommand command = commandFactory.GetCommand(userCommand);
+                            string result = await command.ExecuteAsync();
+                            graphicUserInterface.PrintMessage($"\n** Result: {result}\n");
+                        }
+                        catch (Exception ex)
+                        {
+                            graphicUserInterface.PrintMessage($"An error occurred while processing the command: {ex.Message}. Please try again.\n");
+                        }
+                        break;
+
+                    case "2":
+                        Environment.Exit(0);
+                        break;
+
+                    case "3":
+                        graphicUserInterface.ClearScreen();
+                        PrintHeader();
+                        break;
+
+                    default:
+                        graphicUserInterface.PrintMessage("Invalid option. Please enter a number between 1 and 3.");
+                        break;
                 }
             }
+        }
+
+        private void PrintMenu()
+        {
+            graphicUserInterface.PrintMessage("\n1.Enter command\n");
+            graphicUserInterface.PrintMessage("2.Quit\n");
+            graphicUserInterface.PrintMessage("3.Clear the screen\n");
+        }
+
+        private void PrintHeader()
+        {
+            graphicUserInterface.PrintMessage("Welcome to the Hotel Rooms Management System!");
+            graphicUserInterface.PrintMessage("Please select an option from the menu below:");
         }
     }
 }

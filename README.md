@@ -1,4 +1,3 @@
-# RoomsAndBookingsManagement
 
 # Hotel Room Availability And Bookings(HRAAB) Management App
 

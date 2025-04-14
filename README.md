@@ -25,6 +25,11 @@ RoomTypes(H101, 20240904, 3)
 RoomTypes(H101, 20240905-20240908, 4)  
 ```
 
+The room allocation is based on an optimized greedy algorithm which tries to use the fewest partially filled rooms by giving priority to larger rooms first. 
+An improvement would be to use a backtracking algorithm to find the best combination of rooms.
+
+
+
 ## How to Run
 
 ### Prerequisites

@@ -1,0 +1,118 @@
+[
+	{
+		"id": "H1",
+		"name": "Hotel California",
+		"roomTypes": [
+			{
+				"code": "SGL",
+				"size": 1,
+				"description": "Single Room",
+				"amenities": [
+					"WiFi",
+					"TV"
+				],
+				"features": [
+					"Non-smoking"
+				]
+			},
+			{
+				"code": "DBL",
+				"size": 2,
+				"description": "Double Room",
+				"amenities": [
+					"WiFi",
+					"TV",
+					"Minibar"
+				],
+				"features": [
+					"Non-smoking",
+					"Sea View"
+				]
+			}
+		],
+		"rooms": [
+			{
+				"roomType": "SGL",
+				"roomId": "100"
+			},
+			{
+				"roomType": "SGL",
+				"roomId": "101"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "200"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "201"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "202"
+			}
+		]
+	},
+	{
+		"id": "H2",
+		"name": "Aqvatonic Hotel",
+		"roomTypes": [
+			{
+				"code": "SGL",
+				"size": 1,
+				"description": "Single Room",
+				"amenities": [
+					"WiFi",
+					"TV",
+					"Free Parking",
+					"Breakfast"
+				],
+				"features": [
+					"Non-smoking"
+				]
+			},
+			{
+				"code": "DBL",
+				"size": 2,
+				"description": "Double Room",
+				"amenities": [
+					"WiFi",
+					"TV",
+					"Minibar",
+					"Free Parking",
+					"Breakfast"
+				],
+				"features": [
+					"Non-smoking",
+					"Sea View"
+				]
+			}
+		],
+		"rooms": [
+			{
+				"roomType": "SGL",
+				"roomId": "110"
+			},
+			{
+				"roomType": "SGL",
+				"roomId": "111"
+			},
+			{
+				"roomType": "SGL",
+				"roomId": "112"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "210"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "211"
+			},
+			{
+				"roomType": "DBL",
+				"roomId": "212"
+			}
+		]
+	}
+]

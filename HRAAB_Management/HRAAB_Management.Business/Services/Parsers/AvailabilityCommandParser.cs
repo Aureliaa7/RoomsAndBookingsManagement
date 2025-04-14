@@ -24,7 +24,7 @@ namespace HRAAB_Management.Business.Services.Parsers
 
             (DateOnly arrival, DateOnly departure) = GetDateRange(parts[DateIndex].Trim());
 
-            var data = new AvailabilityCommandData
+            AvailabilityCommandData data = new AvailabilityCommandData
             {
                 HotelId = parts[HotelIdIndex].Trim(),
                 Arrival = arrival,

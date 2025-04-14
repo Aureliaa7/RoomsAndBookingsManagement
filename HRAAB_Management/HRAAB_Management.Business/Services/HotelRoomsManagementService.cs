@@ -77,7 +77,7 @@ namespace HRAAB_Management.Business.Services
                         break;
 
                     default:
-                        graphicUserInterface.PrintMessage("Invalid option. Please enter a number between 1 and 3.");
+                        Environment.Exit(0);
                         break;
                 }
             }

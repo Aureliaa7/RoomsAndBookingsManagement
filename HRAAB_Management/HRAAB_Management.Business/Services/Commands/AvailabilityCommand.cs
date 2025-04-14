@@ -22,6 +22,7 @@ namespace HRAAB_Management.Business.Services.Commands
             Hotel hotel = GetHotel(data.HotelId);
 
             int overlappingBookings = dataStore.GetBookings()
+                .Where(b => b.HotelId == data.HotelId && b.RoomType == data.RoomType)
                 .Count(b => IsRoomBooked(data.RoomType, data.Arrival, data.Departure, data.HotelId));
 
             int totalRooms = hotel.Rooms.Count(r => r.RoomType == data.RoomType);

@@ -5,9 +5,12 @@ namespace HRAAB_Management.Business.Abstractions
 {
     public abstract class BaseCommandParser<T> where T : ICommandData, new()
     {
-        protected string commandType;
-        protected int expectedArgumentsCount;
-        private string dateTimeFormat;
+        private readonly string commandType;
+        private readonly int expectedArgumentsCount;
+        private readonly string dateTimeFormat;
+
+        private const int ArrivalDateIndex = 0;
+        private const int DepartureDateIndex = 1;
 
         protected BaseCommandParser(string commandType, int expectedArgumentsCount, string dateTimeFormat)
         {
@@ -25,7 +28,7 @@ namespace HRAAB_Management.Business.Abstractions
 
         protected (DateOnly arrival, DateOnly departure) GetDateRange(string date)
         {
-            var dateParts = date.Split(['-'], StringSplitOptions.RemoveEmptyEntries);
+            string[] dateParts = date.Split(['-'], StringSplitOptions.RemoveEmptyEntries);
             if (dateParts.Length > 2)
             {
                 throw new ArgumentException("Invalid date format", nameof(date));
@@ -35,13 +38,13 @@ namespace HRAAB_Management.Business.Abstractions
             DateOnly departure;
             if (dateParts.Length == 1)
             {
-                arrival = GetDate(dateParts[0]);
+                arrival = GetDate(dateParts[ArrivalDateIndex]);
                 departure = arrival.AddDays(1);
             }
             else if (dateParts.Length == 2)
             {
-                arrival = GetDate(dateParts[0]);
-                departure = GetDate(dateParts[1]);
+                arrival = GetDate(dateParts[ArrivalDateIndex]);
+                departure = GetDate(dateParts[DepartureDateIndex]);
             }
             else
             {
@@ -76,7 +79,7 @@ namespace HRAAB_Management.Business.Abstractions
             sanitizedInput = sanitizedInput.Replace(Constants.ClosingParanthesis, string.Empty);
 
             string[] parts = input.Split([','], StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length < expectedArgumentsCount)
+            if (parts.Length != expectedArgumentsCount)
             {
                 throw new ArgumentException("Invalid command format", nameof(input));
             }

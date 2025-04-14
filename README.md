@@ -35,4 +35,4 @@ RoomTypes(H101, 20240905-20240908, 4)
 
 ```bash
 dotnet build
-dotnet run  --path\to\hotels hotels.json --bookings path\to\bookings.json
+dotnet run  --hotels path\to\hotels.json --bookings path\to\bookings.json

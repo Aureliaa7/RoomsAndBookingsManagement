@@ -6,7 +6,7 @@ namespace HRAAB_Management.Business.Entities
 {
     public class Booking : IEntity
     {
-        public string HotelId { get; set; }
+        public string HotelId { get; set; } = string.Empty;
 
         [JsonConverter(typeof(DateOnlyNewtonsoftConverter))]
         public DateOnly Arrival { get; set; }

@@ -2,6 +2,7 @@
 using HRAAB_Management.Business.CommandData;
 using HRAAB_Management.Business.Entities;
 using HRAAB_Management.Business.Enums;
+using HRAAB_Management.Business.Exceptions;
 using HRAAB_Management.Business.Extensions;
 
 namespace HRAAB_Management.Business.Services.Commands
@@ -29,7 +30,7 @@ namespace HRAAB_Management.Business.Services.Commands
 
             if (noRemainingPersons > 0)
             {
-                return Task.FromResult($"Could not allocate enough rooms for {data.NoPersons} people at '{hotel.Name}'.");
+                throw new NotEnoughRoomsException($"Could not allocate enough rooms for {data.NoPersons} people at '{hotel.Name}'.");
             }
 
             string result = string.Join(", ",

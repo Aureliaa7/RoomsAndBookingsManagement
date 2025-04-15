@@ -2,7 +2,7 @@
 {
     public class RoomTypesCommandData : ICommandData
     {
-        public string HotelId { get; set; }
+        public string HotelId { get; set; } = string.Empty;
 
         public DateOnly Arrival { get; set; }
 
